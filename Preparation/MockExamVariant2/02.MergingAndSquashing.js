@@ -13,33 +13,16 @@ const test = ['4', '12', '23', '34', '45']
 const gets = this.gets || getGets(test)
 const print = this.print || console.log
 
-let numbers = []
+let [merged, squashed] = [[], []]
 
-let n = +gets()
-for (let i = 0; i < n; i++) {
-  numbers.push(gets())
-}
+Array.from({ length: +gets() }, () => gets()).forEach((e, i, a) => {
+  if (i < a.length - 1) {
+    merged.push(a[i][1] + a[i + 1][0])
+    squashed.push(
+      a[i][0] + ((+a[i][1] + +a[i + 1][0]) % 10) + a[i + 1][1]
+    )
+  }
+})
 
-let merged = numbers
-  .reduce((acc, el, index, arr) => {
-    if (index < arr.length - 1) {
-      acc.push(`${el[1]}${arr[index + 1][0]}`)
-    }
-
-    return acc
-  }, [])
-  .join(' ')
-
-let squashed = numbers
-  .reduce((acc, el, i, arr) => {
-    if (i < arr.length - 1) {
-      let middle = (Number(el[1]) + Number(arr[i + 1][0])) % 10
-      acc.push(`${el[0]}${middle}${arr[i + 1][1]}`)
-    }
-
-    return acc
-  }, [])
-  .join(' ')
-
-print(merged)
-print(squashed)
+print(merged.join(' '))
+print(squashed.join(' '))
