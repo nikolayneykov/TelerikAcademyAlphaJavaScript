@@ -13,17 +13,13 @@ const test = ['1020340567.89']
 const gets = this.gets || getGets(test)
 const print = this.print || console.log
 
-let number = gets()
+let result = gets()
   .split('')
   .filter(x => x.match(/\d/))
-  .join('')
+  .map(Number)
+  .reduce((acc, el) => {
+    acc += el
+    return acc < 9 ? acc : (acc % 10) + ~~(acc / 10)
+  }, 0)
 
-while (number.length > 1) {
-  number = number
-    .split('')
-    .map(Number)
-    .reduce((a, b) => a + b, 0)
-    .toString()
-}
-
-print(number)
+print(result)

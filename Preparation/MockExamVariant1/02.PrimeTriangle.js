@@ -13,9 +13,9 @@ const test = ['10']
 const gets = this.gets || getGets(test)
 const print = this.print || console.log
 
-function isPrime (num) {
-  for (let i = 2; i <= Math.sqrt(num); i++) {
-    if (num % i === 0) {
+function isPrime (n) {
+  for (let i = 2; i <= Math.sqrt(n); i++) {
+    if (n % i === 0) {
       return false
     }
   }
@@ -23,18 +23,14 @@ function isPrime (num) {
   return true
 }
 
-let n = +gets()
-let sequence = []
-sequence.length = n
-sequence = sequence.fill(0).map((e, i) => (isPrime(i + 1) ? 1 : 0))
-let rowCount = sequence.filter(x => x === 1).length
+let sequence = Array.from({ length: +gets() }, (_, i) =>
+  isPrime(i + 1) ? 1 : 0
+)
+
+let rows = sequence.filter(x => x === 1).length
 let index = 0
 
-for (let i = 0; i < rowCount; i++) {
-  while (index < sequence.length && sequence[index] === 0) {
-    index++
-  }
-
-  index++
-  print(sequence.slice(0, index).join(''))
+for (let i = 0; i <= rows; i++) {
+  print(sequence.slice(0, index + 1).join(''))
+  index = sequence.indexOf(1, index + 1)
 }
